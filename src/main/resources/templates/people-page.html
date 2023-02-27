@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page-layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>People List</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div layout:fragment="main-content" class="col-md-8 col-sm-11 mt-3 my-5 mx-auto">
+        <p class="fs-3 fw-lighter"> People List
+        <div class="alert alert-danger" role="alert"  id="deleteAlert" th:if="${deleteAlert}" th:text="${deleteAlert}">
+            Selected person has been removed from database.
+        </div>
+
+        <table class="table table-bordered table-sm table-hover people-table">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Dob</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Photo</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(people)}">
+                <td colspan="8" class="text-center">No Data</td>
+            </tr>
+            <tr th:each="person: ${people}">
+                <th data-selenium-id="person-id" scope="row" th:text="${person.id}">1</th>
+                <td data-selenium-id="firstName" th:text="${person.firstName}">Tom</td>
+                <td data-selenium-id="lastName" th:text="${person.lastName}">Tommy</td>
+                <td data-selenium-id="email" th:text="${person.email}">@it</td>
+                <td data-selenium-id="dob" th:text="${#temporals.format(person.dob, 'MMMM dd, yyyy')}"></td>
+                <td data-selenium-id="salary text-end" th:text="${#numbers.formatCurrency(person.salary)}"></td>
+                <td>
+                    <img data-selenium-id="person-image-sm" width="32px" height="32px"
+                         th:if="${person.photoFileName}"
+                         th:src="@{/people/images/{filename}(filename = ${person.photoFileName})}" >
+                </td>
+                <td>
+                    <a th:href="@{/people/{id}(id = ${person.id})}" class="btn btn-info" data-selenium-id="info-button">Info</a>
+                    <a th:href="@{/people/{id}/update (id = ${person.id})}" class="btn btn-warning" data-selenium-id="update-button">Update</a>
+                    <form class="deletePerson" method="post" th:action="@{/people/{id}/delete(id=${person.id})}">
+                        <button type="submit" class="btn btn-danger" data-selenium-id="delete-button">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="/people/save" class="btn btn-primary mt-4" data-selenium-id="save-button">Save New Person</a>
+    </div>
+</body>
+</html>

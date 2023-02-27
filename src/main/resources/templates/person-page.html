@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page-layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Person</title>
+</head>
+
+<body>
+    <div layout:fragment="main-content" class="row my-5 mx-auto col-md-8">
+        <h2 data-selenium-id="person-name" th:text="${person.firstName} + ' ' + ${person.lastName}" >Person page</h2>
+
+        <div class="col-md-8">
+            <table class="table table-borderless" data-selenium-id="person-table">
+                <tbody>
+                <tr>
+                    <th>First Name</th>
+                    <td data-selenium-id="first-name" th:text="${person.firstName}">John</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td data-selenium-id="last-name" th:text="${person.lastName}">Carter</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td data-selenium-id="email" th:text="${person.email}">johncarter@mail.com</td>
+                <tr>
+                    <th>Date of birth</th>
+                    <td data-selenium-id="dob" th:text="${#temporals.format(person.dob, 'MMMM dd, yyyy')}">01-01-2000</td>
+                </tr>
+                <tr>
+                    <th>Salary</th>
+                    <td data-selenium-id="salary" th:text="${#numbers.formatCurrency(person.salary)}">1000</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="photo-box col-md-4">
+            <img class="border border-5" data-selenium-id="person-image-lg"
+                 th:if="${person.photoFileName}" th:src="@{/people/images/{filename}(filename = ${person.photoFileName})}">
+        </div>
+
+        <div class="actions">
+            <a th:href="@{/people/{id}/update (id = ${person.id})}" class="btn btn-warning my-3" data-selenium-id="update-button">Update</a>
+            <form class="deletePerson" method="post" th:action="@{/people/{id}/delete(id=${person.id})}">
+                <button type="submit" class="btn btn-danger" data-selenium-id="delete-button">Delete</button>
+            </form><br>
+            <a href="/people" class="btn btn-primary mt-3">Go to People list</a>
+        </div>
+    </div>
+</body>
+</html>

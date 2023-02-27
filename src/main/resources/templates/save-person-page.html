@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page-layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Save person</title>
+</head>
+
+<body>
+
+    <div layout:fragment="main-content" class="col-5 mt-5 mx-auto">
+        <p class="fs-3 fw-lighter" th:if="${#httpServletRequest.requestURI == '/people/save'}"
+           th:text="'Save new Person'"></p>
+        <p class="fs-3 fw-lighter" th:unless="${#httpServletRequest.requestURI == '/people/save'}"
+           th:text="'Update Person'"></p>
+
+        <form th:object="${personForm}" method="post" novalidate enctype="multipart/form-data">
+            <div class="form-group mt-2">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}"
+                       th:errorclass="is-invalid">
+                <div id="validationFirstName" class="invalid-feedback" th:errors="*{firstName}"> Errors</div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" th:errorclass="is-invalid">
+                <div id="validationLastName" class="invalid-feedback" th:errors="*{lastName}"> Errors</div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                       placeholder="Enter email" th:field="*{email}" th:errorclass="is-invalid">
+                <div id="validationEmail" class="invalid-feedback" th:errors="*{email}"> Errors</div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="dob">Dob</label>
+                <input type="date" class="form-control" id="dob" th:field="*{dob}" th:errorclass="is-invalid">
+                <div id="validationDob" class="invalid-feedback" th:errors="*{dob}"> Errors</div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="salary">Salary</label>
+                <input type="number" class="form-control" id="salary" th:field="*{salary}" th:errorclass="is-invalid">
+                <div id="validationSalary" class="invalid-feedback" th:errors="*{salary}"> Errors</div>
+            </div>
+            <div class="mb-3 mt-2">
+                <label for="photoFileName" class="form-label">Photo file</label>
+                <div class="photo-box-form col-md-4 mb-2 " th:if="${person?.photoFileName}">
+                    <img class="border border-5" data-selenium-id="person-image-form"
+                         th:src="@{/people/images/{filename}(filename = ${person.photoFileName})}">
+                </div>
+                <input class="form-control" type="file" id="photoFileName" name="photoFileName">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3 my-5" data-selenium-id="save-button">Save Person</button>
+        </form>
+    </div>
+
+</body>
+</html>
