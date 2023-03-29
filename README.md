@@ -7,7 +7,7 @@ In other repositories I use this application as a base for writing automated tes
 Repositories with tests to this app:
 
 1. UI tests with Selenium - https://github.com/alazarska/people-application-ui-tests
-2. RestApi tests with HttpClient - https://github.com/alazarska/people-application-api-tests
+2. REST API tests with HttpClient - https://github.com/alazarska/people-application-api-tests
 
 ## Configuration
 
