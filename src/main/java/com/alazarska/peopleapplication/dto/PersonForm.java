@@ -24,8 +24,8 @@ public class PersonForm {
     private String email;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Past(message = "Dob must be in past")
-    @NotNull(message = "Dob can not be empty")
+    @Past(message = "Date of birth must be in past")
+    @NotNull(message = "Date of birth can not be empty")
     private LocalDate dob;
 
     @DecimalMin(value = "0.00", message = "Salary must be at least 0.00")
